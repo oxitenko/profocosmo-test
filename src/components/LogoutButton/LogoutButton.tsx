@@ -1,13 +1,20 @@
-import {Button} from 'antd';
+import {Button, ButtonProps} from 'antd';
 import {LogoutOutlined} from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 import {routesLinksEnum} from '../../app/routes';
+import {useAuth} from '../../hooks/useAuth';
 
-const LogoutButton = () => {
+const LogoutButton = ({size = 'large'}: ButtonProps) => {
 	const navigate = useNavigate();
+	const auth = useAuth();
+
+	const handleLogout = () => {
+		auth.logout();
+		navigate(routesLinksEnum.login, {replace: true});
+	};
 
 	return (
-		<Button onClick={() => navigate(routesLinksEnum.login)} type='primary' size='large' icon={<LogoutOutlined />}>
+		<Button onClick={handleLogout} type='primary' size={size} icon={<LogoutOutlined />}>
 			Выйти
 		</Button>
 	);

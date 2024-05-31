@@ -1,28 +1,36 @@
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
-import AppLayout from './layouts/AppLayout';
 import ErrorPage from '../pages/ErrorPage/ErrorPage';
 import ForbidenPage from '../pages/ForbidenPage/ForbidenPage';
 import {routesLinksEnum} from './routes';
 import MainPage from '../pages/MainPage/MainPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import LogoutPage from '../pages/LogoutPage/LogoutPage';
+import ProtectedLayout from './layouts/ProtectedLayout';
+import LoginLayout from './layouts/LoginLayout';
 
 const router = createBrowserRouter([
 	{
-		element: <AppLayout />,
+		element: <ProtectedLayout />,
 		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: routesLinksEnum.main,
 				element: <MainPage />,
 			},
-			{
-				path: routesLinksEnum.login,
-				element: <LoginPage />,
-			},
+
 			{
 				path: routesLinksEnum.logout,
 				element: <LogoutPage />,
+			},
+		],
+	},
+	{
+		element: <LoginLayout />,
+		errorElement: <ErrorPage />,
+		children: [
+			{
+				path: routesLinksEnum.login,
+				element: <LoginPage />,
 			},
 		],
 	},

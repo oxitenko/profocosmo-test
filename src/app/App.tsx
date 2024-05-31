@@ -1,5 +1,6 @@
 import {ConfigProvider} from 'antd';
 import {Router} from './Router';
+import {AuthProvider} from '../hooks/useAuth';
 
 function App() {
 	return (
@@ -10,7 +11,9 @@ function App() {
 				},
 			}}
 		>
-			<Router />
+			<AuthProvider>
+				<Router />
+			</AuthProvider>
 		</ConfigProvider>
 	);
 }
