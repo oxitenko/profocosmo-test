@@ -1,5 +1,18 @@
+import {ConfigProvider} from 'antd';
+import {Router} from './Router';
+
 function App() {
-	return <div className='App'>MIumiu</div>;
+	return (
+		<ConfigProvider
+			theme={{
+				token: {
+					fontFamily: 'Inter',
+				},
+			}}
+		>
+			<Router />
+		</ConfigProvider>
+	);
 }
 
 export default App;
