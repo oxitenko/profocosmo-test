@@ -1,0 +1,14 @@
+@import '../../../variables.scss';
+
+.filterWrapper {
+    .title {
+        @include title;
+        font-size: 14px;
+    }
+
+    .radio {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}

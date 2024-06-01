@@ -6,10 +6,10 @@ import {useState} from 'react';
 
 const TaskItems = () => {
 	const tasksList = useStore((state) => state.tasks);
+	const filteredTasks = useStore((state) => state.filteredTasks);
 
 	const [current, setCurrent] = useState(1);
 	const pageSize = 3;
-
 	const handlePageChange = (page: number) => {
 		setCurrent(page);
 	};
@@ -19,19 +19,26 @@ const TaskItems = () => {
 
 	return (
 		<>
-			<Flex vertical gap={18} style={{margin: '0 auto'}}>
-				{tasksList.slice(indexOfFirstItem, indexOfLastItem).map((item, index) => (
-					<TaskItem
-						key={index}
-						id={item.id}
-						name={item.name}
-						text={item.text}
-						email={item.email}
-						complite={item.complite}
-					/>
-				))}
+			<Flex vertical gap={12} style={{margin: '0 auto'}}>
+				{(filteredTasks.length ? filteredTasks : tasksList)
+					.slice(indexOfFirstItem, indexOfLastItem)
+					.map((item, index) => (
+						<TaskItem
+							key={index}
+							id={item.id}
+							name={item.name}
+							text={item.text}
+							email={item.email}
+							complite={item.complite}
+						/>
+					))}
 			</Flex>
-			<Pagination total={tasksList.length} pageSize={pageSize} current={current} onChange={handlePageChange} />
+			<Pagination
+				total={filteredTasks.length ? filteredTasks.length : tasksList.length}
+				pageSize={pageSize}
+				current={current}
+				onChange={handlePageChange}
+			/>
 		</>
 	);
 };

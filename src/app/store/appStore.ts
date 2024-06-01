@@ -2,16 +2,29 @@ import {create} from 'zustand';
 import {immer} from 'zustand/middleware/immer';
 
 interface Task {
-	id?: number;
+	id: number;
 	name: string;
 	email: string;
 	text?: string;
 	complite?: boolean;
 }
 
+interface Filter {
+	name?: string;
+	email?: string;
+	complite?: boolean | null;
+}
+
 interface State {
 	tasks: Task[];
+	filters: Filter;
+	filteredTasks: Task[];
+	sortById: string;
+	setSortById: (order: string) => void;
 	setState: (newTask: Task) => void;
+	setFilters: (filters: Filter) => void;
+	applyFilters: () => void;
+	resetFilters: () => void;
 }
 
 export const useStore = create<State>()(
@@ -81,6 +94,57 @@ export const useStore = create<State>()(
 				complite: true,
 			},
 		],
+		filteredTasks: [],
+		filters: {
+			name: '',
+			email: '',
+			complite: null,
+		},
+		sortById: 'asc',
+
+		setFilters: (filters) =>
+			set((state) => {
+				state.filters = {...state.filters, ...filters};
+			}),
+		setSortById: (order) =>
+			set((state) => {
+				state.sortById = order;
+			}),
+
+		applyFilters: () => {
+			set((state) => {
+				let filtered = state.tasks;
+
+				if (state.filters.name) {
+					filtered = filtered.filter((task) => task.name.toLowerCase().includes(state.filters.name!.toLowerCase()));
+				}
+
+				if (state.filters.email) {
+					filtered = filtered.filter((task) => task.email.toLowerCase().includes(state.filters.email!.toLowerCase()));
+				}
+
+				if (state.filters.complite !== undefined && state.filters.complite !== null) {
+					filtered = filtered.filter((task) => task.complite === state.filters.complite);
+				}
+
+				filtered = filtered.sort((a, b) => {
+					if (state.sortById === 'asc') {
+						return a.id - b.id;
+					} else {
+						return b.id - a.id;
+					}
+				});
+
+				state.filteredTasks = filtered;
+			});
+		},
+		resetFilters: () => {
+			set((state) => {
+				state.filters = {};
+				state.filteredTasks = state.tasks.slice().sort((a, b) => a.id - b.id);
+			});
+		},
+
 		setState: (newTask: Task) =>
 			set((state) => {
 				state.tasks.unshift({
@@ -90,6 +154,7 @@ export const useStore = create<State>()(
 					text: newTask.text,
 					complite: newTask.complite,
 				});
+				state.applyFilters();
 			}),
 	})),
 );
