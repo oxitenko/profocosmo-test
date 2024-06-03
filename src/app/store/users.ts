@@ -8,3 +8,6 @@ export const authUsers = [
 		password: '67890',
 	},
 ];
+
+export const user = authUsers[0].login;
+export const admin = authUsers[1].login;

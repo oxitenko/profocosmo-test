@@ -31,7 +31,7 @@ const TaskForm = ({onClose}: Props) => {
 				name: values.name,
 				email: values.email,
 				text: values.text,
-				complite: false,
+				complete: false,
 			});
 
 			formik.resetForm();

@@ -8,7 +8,7 @@ const Filter = () => {
 	const [filterOpen, setFilterOpen] = useState(false);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [complite, setComplite] = useState(null);
+	const [complete, setComplete] = useState(null);
 	const [sortOrder, setSortOrder] = useState('');
 
 	const applyFilters = useStore((state) => state.applyFilters);
@@ -19,12 +19,12 @@ const Filter = () => {
 	const resetFields = () => {
 		setName('');
 		setEmail('');
-		setComplite(null);
+		setComplete(null);
 		setSortOrder('');
 	};
 
 	const handleApplyFilters = () => {
-		setFilters({name, email, complite});
+		setFilters({name, email, complete});
 		setSortById(sortOrder);
 		applyFilters();
 		setFilterOpen(false);
@@ -60,7 +60,7 @@ const Filter = () => {
 					</Flex>
 					<Flex vertical gap={12}>
 						<Typography className={classes.title}>По статусу</Typography>
-						<Radio.Group className={classes.radio} value={complite} onChange={(e) => setComplite(e.target.value)}>
+						<Radio.Group className={classes.radio} value={complete} onChange={(e) => setComplete(e.target.value)}>
 							<Radio value={true}>Выполнена</Radio>
 							<Radio value={false}>Не выполнена</Radio>
 						</Radio.Group>
